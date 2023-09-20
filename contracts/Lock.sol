@@ -23,7 +23,7 @@ contract Lock {
     mapping(address => uint256) public depositedAmounts; // Mapping of deposited USDC per user
 
     event Deposted(address indexed user, uint256 amount);
-    event Withdrawed(address indexed user, uint256 amount);
+    event Withdrawn(address indexed user, uint256 amount);
 
     constructor(address _usdc_addr, address _usdt_addr) {
         usdc_address = _usdc_addr;
@@ -52,7 +52,11 @@ contract Lock {
         // Update deposited amount
         depositedAmounts[msg.sender] -= amount;
 
-        emit Withdrawed(msg.sender, amount);
+        emit Withdrawn(msg.sender, amount);
+    }
+
+    function getDepositedAmount(address user) external view returns (uint256) {
+        return depositedAmounts[user];
     }
     // Other functions like admin logic, updating USDC address, etc. can be added
 }

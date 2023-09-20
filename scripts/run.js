@@ -5,13 +5,13 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 // const hre = require("hardhat");
-const usdcAddress = "0xe484Cf78f425e27998C7Ad31069356D1c6F83a5e";
-const lockAddress = "0xACa531C4291011C3C7A97E0C165682CfbE2c7EF7";
+const usdcAddress = "0xc493e7373757C759cf589731eE1cFaB80b13Ed7a";
+const lockAddress = "0x42e16E0fb372a48b9E767ed00B120748349f288F";
 require("dotenv").config();
 
 async function main() {
   const provider = new ethers.JsonRpcProvider(
-    process.env.GOERLI_PUBLIC_RPC_URL
+    process.env.SEPOLIA_PUBLIC_RPC_URL
   );
   const wallet = new ethers.Wallet(process.env.WALEET_PRIVATE_KEY, provider);
   console.log(wallet.address);
