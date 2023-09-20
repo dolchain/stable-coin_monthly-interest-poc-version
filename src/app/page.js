@@ -3,10 +3,118 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ethers, BrowserProvider } from "ethers";
 import {} from "ethers";
-import usdcAbi from "../../smart_contracts/artifacts/contracts/USDCTestToken.sol/USDCTestToken.json";
-import lockAbi from "../../smart_contracts/artifacts/contracts/Lock.sol/Lock.json";
+// import usdcAbi from "../../smart_contracts/artifacts/contracts/USDCTestToken.sol/USDCTestToken.json";
+// import lockAbi from "../../smart_contracts/artifacts/contracts/Lock.sol/Lock.json";
 import { useAccount } from "wagmi";
 
+const usdcAbi = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "spender",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "approve",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "faucetAmount",
+        type: "uint256",
+      },
+    ],
+    name: "faucet",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+const lockAbi = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "depositUSDC",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "withdrawUSDC",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "getDepositedAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 const usdcAddress = "0xc493e7373757C759cf589731eE1cFaB80b13Ed7a";
 const lockAddress = "0x42e16E0fb372a48b9E767ed00B120748349f288F";
 
@@ -40,8 +148,8 @@ export default function Home() {
         const signer = await web3Provider.getSigner();
         // const provider = new ethers.providers.Web3Provider(ethereum);
         // const signer = provider.getSigner();
-        setLock(new ethers.Contract(lockAddress, lockAbi.abi, signer));
-        setUdscToken(new ethers.Contract(usdcAddress, usdcAbi.abi, signer));
+        setLock(new ethers.Contract(lockAddress, lockAbi, signer));
+        setUdscToken(new ethers.Contract(usdcAddress, usdcAbi, signer));
         updateBlance();
       } else {
         console.log("Ethereum object doesn't exist!");
