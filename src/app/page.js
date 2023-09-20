@@ -9,7 +9,6 @@ import { useAccount } from "wagmi";
 
 const usdcAddress = "0xc493e7373757C759cf589731eE1cFaB80b13Ed7a";
 const lockAddress = "0x42e16E0fb372a48b9E767ed00B120748349f288F";
-require("dotenv").config();
 
 export default function Home() {
   const { address, isConnected } = useAccount();
