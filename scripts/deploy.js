@@ -8,12 +8,13 @@
 require("dotenv").config();
 
 async function main() {
-  const usdcToken = await hre.ethers.deployContract("USDCTestToken");
-  await usdcToken.waitForDeployment();
-  console.log(`USDC deployed to ${usdcToken.target}`);
+  // const usdcToken = await hre.ethers.deployContract("USDCTestToken");
+  // await usdcToken.waitForDeployment();
+  // console.log(`USDC deployed to ${usdcToken.target}`);
 
   const lock = await hre.ethers.deployContract("Lock", [
-    usdcToken.target,
+    //usdcToken.target,
+    "0xc493e7373757C759cf589731eE1cFaB80b13Ed7a",
     process.env.GOERLI_USDT_ADDRESS,
   ]);
   await lock.waitForDeployment();
