@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { ethers, BrowserProvider } from "ethers";
 import {} from "ethers";
-import usdcAbi from "../../../artifacts/contracts/USDCTestToken.sol/USDCTestToken.json";
-import lockAbi from "../../../artifacts/contracts/Lock.sol/Lock.json";
+import usdcAbi from "../../smart_contracts/artifacts/contracts/USDCTestToken.sol/USDCTestToken.json";
+import lockAbi from "../../smart_contracts/artifacts/contracts/Lock.sol/Lock.json";
 import { useAccount } from "wagmi";
 
 const usdcAddress = "0xc493e7373757C759cf589731eE1cFaB80b13Ed7a";
