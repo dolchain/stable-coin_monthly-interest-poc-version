@@ -5,7 +5,8 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 // const hre = require("hardhat");
-const lockAddress = "0x5Eb69C0c6cD2B5885e2a4862A303A3759B684C87";
+const usdcAddress = "0xe484Cf78f425e27998C7Ad31069356D1c6F83a5e";
+const lockAddress = "0xACa531C4291011C3C7A97E0C165682CfbE2c7EF7";
 require("dotenv").config();
 
 async function main() {
@@ -20,8 +21,9 @@ async function main() {
   console.log(lock.target, lock.runner);
 
   // Load the USDC token contract
-  const usdcToken = new ethers.Contract(process.env.GOERLI_USDC_ADDRESS, [
+  const usdcToken = new ethers.Contract(usdcAddress, [
     "function approve(address, uint256)",
+    "function faucet(uint256)",
   ]).connect(wallet);
   console.log(usdcToken.target, usdcToken.runner);
 
@@ -30,20 +32,36 @@ async function main() {
 
   try {
     // Approve the Lock contract to spend USDC tokens on your behalf
+    const faucetTx = await usdcToken.faucet(amountToLock);
+
+    // Wait for the approval transaction to be mined
+    await faucetTx.wait();
+
+    console.log(`fauceted ${amountToLock} USDC`);
+
+    // Approve the Lock contract to spend USDC tokens on your behalf
     const approveTx = await usdcToken.approve(lockAddress, amountToLock);
 
     // Wait for the approval transaction to be mined
     await approveTx.wait();
 
-    console.log(`Approved ${amountToLock} USDC for PolyBridge contract`);
+    console.log(`Approved ${amountToLock} USDC for Lock contract`);
 
     // Call the lockUSDC function
-    const lockTx = await lock.lockUSDC(amountToLock);
+    const lockTx = await lock.depositUSDC(amountToLock);
 
     // Wait for the lockUSDC transaction to be mined
     await lockTx.wait();
 
-    console.log(`Successfully locked ${amountToLock} USDC`);
+    console.log(`Successfully depoisted ${amountToLock} USDC`);
+
+    // Call the lockUSDC function
+    const withdrawTx = await lock.withdrawUSDC(amountToLock);
+
+    // Wait for the lockUSDC transaction to be mined
+    await lockTx.wait();
+
+    console.log(`Successfully withdrawed ${amountToLock} USDC`);
   } catch (error) {
     console.error("Error:", error);
   }
